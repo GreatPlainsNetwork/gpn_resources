@@ -10,6 +10,7 @@ title:
   text: "Establishing 400G Path"
   author: Andrew Laubach/James Deaton
   date: 2/24/22
+  version: 1.5
   company: Great Plains Network
   subText: Implementing new devices and IX
   logoUrl: https://raw.githubusercontent.com/GreatPlainsNetwork/gpn_resources/main/images/gpn.png
