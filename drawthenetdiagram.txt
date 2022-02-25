@@ -37,6 +37,11 @@ qfx: &qfx
   x: "+1"
   icon: "layer3switch"
   textLocation: "topMiddle"
+acx: &acx
+  <<: *cisco
+  x: "+1"
+  icon: "router"
+  textLocation: "topMiddle"
 icons:
   KS: {<<: *cloud, x: 0, y: 5}
   MO: {<<: *cloud, x: "+1"}
@@ -49,11 +54,11 @@ icons:
   ESnet: {<<: *cloud, x: "-5", y: "-2"}
   RIPS: {<<: *cloud, x: "-1"}
   KCIX: {<<: *cloud, x: "+5"}
-  kc-qfx1: {<<: *qfx, x: 3, y: 4}
-  kc-qfx2: {<<: *qfx, x: "+2"}
+  kc-acx1: {<<: *acx, x: 3, y: 4}
+  kc-qfx1: {<<: *qfx, x: "+2"}
   Internet2: {<<: *cloud, x: "-1", y: "-1"}
-  tul-qfx1: {<<: *qfx, x: 3, y: 2}
-  tul-qfx2: {<<: *qfx, x: "+2" }
+  tul-acx1: {<<: *acx, x: 3, y: 2}
+  tul-qfx1: {<<: *qfx, x: "+2" }
   AR: {<<: *cloud, x: "-2", y: "-1"}
   OK: {<<: *cloud, x: "+2"}
 
@@ -62,9 +67,9 @@ group: &group
   color: darkslategray
   stroke: lightgrey
 groups:
-  kc-1100: { <<: *group, textLocation: leftMiddle, name: 1100 Walnut, members: [kc-qfx1, kc-qfx2] }
+  kc-1100: { <<: *group, textLocation: leftMiddle, name: 1100 Walnut, members: [kc-acx1, kc-qfx1] }
   kc-1102: { <<: *group, textLocation: leftMiddle, name: 1102 Grand, members: [KCIX] }
-  tul-18w: { <<: *group, textLocation: leftMiddle, name: 18 W Archer, members: [tul-qfx1, tul-qfx2] }
+  tul-18w: { <<: *group, textLocation: leftMiddle, name: 18 W Archer, members: [tul-acx1, tul-qfx1] }
   chi: { <<: *group, textLocation: leftMiddle, name: Chicago, members: [RIPS] }
   kc-states: { <<: *group, textLocation: leftMiddle, members: [IA,KS,MO,NE,SD,ESnet],stroke: none }
   kc-states-10: { <<: *group, textLocation: leftMiddle, members: [MN,WI,BTAA],stroke: none }
@@ -79,20 +84,20 @@ connections:
 #Affiliates
   - { <<: *connection, stroke: lightgrey, endpoints: [kc-1100:10Gb,kc-states-10:10Gb] }
 #RIPS
-  - { <<: *connection, stroke: lightgrey, endpoints: [RIPS:10Gb,kc-qfx1:10Gb] }
+  - { <<: *connection, stroke: lightgrey, endpoints: [RIPS:10Gb,kc-acx1:10Gb] }
   - { <<: *connection, strokeDashArray: [3,3], endpoints: [RIPS,rips-states] }
 #States
   - { <<: *connection, endpoints: [kc-1100:100Gb,kc-states:100Gb] }
   - { <<: *connection, endpoints: [tul-18w:100Gb,tul-states:100Gb] }
 #KCIX
   - { <<: *connection, strokeDashArray: [3,3], endpoints: [KCIX,kcix-states] }
-  - { <<: *connection, stroke: black, endpoints: [KCIX:100Gb,kc-qfx2:100Gb] }
+  - { <<: *connection, stroke: black, endpoints: [KCIX:100Gb,kc-qfx1:100Gb] }
 #Internet2
   - { <<: *connection, stroke: black, endpoints: [tul-18w:100Gb,Internet2:100Gb] }
   - { <<: *connection, stroke: red, endpoints: [kc-1100:200Gb,Internet2:200Gb] }
   - { <<: *connection, stroke: black, endpoints: [tul-18w:100Gb,Internet2:100Gb] }
 #Interconnects
-  - { <<: *connection, stroke: red, endpoints: [kc-qfx1:200Gb,kc-qfx2:200Gb] }
-  - { <<: *connection, stroke: red, endpoints: [tul-qfx1:200Gb,tul-qfx2:200Gb] }
-  - { <<: *connection, stroke: black, endpoints: [tul-qfx1:via KanREN,kc-qfx1:via KanREN] }
-  - { <<: *connection, stroke: black, endpoints: [tul-qfx2:via I2 AL2S,kc-qfx2:via I2 AL2S] }
+  - { <<: *connection, stroke: red, endpoints: [kc-acx1:200Gb,kc-qfx1:200Gb] }
+  - { <<: *connection, stroke: red, endpoints: [tul-acx1:200Gb,tul-qfx1:200Gb] }
+  - { <<: *connection, stroke: black, endpoints: [tul-acx1:via KanREN,kc-acx1:via KanREN] }
+  - { <<: *connection, stroke: black, endpoints: [tul-qfx1:via I2 AL2S,kc-qfx1:via I2 AL2S] }
