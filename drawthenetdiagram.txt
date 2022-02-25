@@ -1,0 +1,98 @@
+diagram:
+  fill: "white"
+  rows: 7
+  columns: 9
+  gridLines: false
+#  aspectRatio: "10:4"
+title:
+  color: black
+  logoFill: white
+  text: "Post-NGI Plans"
+  author: Andrew Laubach/James Deaton
+  date: 1/10/2021
+  company: Great Plains Network
+  subText: Current plans for leveraging new connectivity from I2 and KanREN
+  logoUrl: https://raw.githubusercontent.com/GreatPlainsNetwork/gpn_resources/main/images/gpn.png
+  fill: none
+  stroke: "black"
+  type: "bar"
+cisco: &cisco
+  stroke: "none"
+  color: "lightgrey"
+  iconFill: "darkslategrey"
+  iconStroke: "lightgrey"
+  iconStrokeWidth: .25
+  iconFamily: "cisco"
+  fill: "none"
+  preserveWhite: "true"
+cloud: &cloud
+  <<: *cisco
+  iconStroke: black
+  iconStrokeWidth: 4
+  x: "+1"
+  icon: "cloud"
+  textLocation: "center"
+qfx: &qfx
+  <<: *cisco
+  x: "+1"
+  icon: "layer3switch"
+  textLocation: "topMiddle"
+icons:
+  KS: {<<: *cloud, x: 0, y: 5}
+  MO: {<<: *cloud, x: "+1"}
+  NE: {<<: *cloud, x: "+1"}
+  IA: {<<: *cloud, x: "+1"}
+  SD: {<<: *cloud, x: "+1"}
+  MN: {<<: *cloud, x: "+1"}
+  WI: {<<: *cloud, x: "+1"}
+  BTAA: {<<: *cloud, x: "+1"}
+  ESnet: {<<: *cloud, x: "-5", y: "-2"}
+  RIPS: {<<: *cloud, x: "-1"}
+  KCIX: {<<: *cloud, x: "+5"}
+  kc-qfx1: {<<: *qfx, x: 3, y: 4}
+  kc-qfx2: {<<: *qfx, x: "+2"}
+  Internet2: {<<: *cloud, x: "-1", y: "-1"}
+  tul-qfx1: {<<: *qfx, x: 3, y: 2}
+  tul-qfx2: {<<: *qfx, x: "+2" }
+  AR: {<<: *cloud, x: "-2", y: "-1"}
+  OK: {<<: *cloud, x: "+2"}
+
+group: &group
+  fill: "none"
+  color: darkslategray
+  stroke: lightgrey
+groups:
+  kc-1100: { <<: *group, textLocation: leftMiddle, name: 1100 Walnut, members: [kc-qfx1, kc-qfx2] }
+  kc-1102: { <<: *group, textLocation: leftMiddle, name: 1102 Grand, members: [KCIX] }
+  tul-18w: { <<: *group, textLocation: leftMiddle, name: 18 W Archer, members: [tul-qfx1, tul-qfx2] }
+  chi: { <<: *group, textLocation: leftMiddle, name: Chicago, members: [RIPS] }
+  kc-states: { <<: *group, textLocation: leftMiddle, members: [IA,KS,MO,NE,SD,ESnet],stroke: none }
+  kc-states-10: { <<: *group, textLocation: leftMiddle, members: [MN,WI,BTAA],stroke: none }
+  tul-states: { <<: *group, textLocation: leftMiddle, members: [AR,OK],stroke: none }
+  kcix-states: { <<: *group, textLocation: leftMiddle, members: [IA,NE,SD,AR,OK],stroke: none }
+  rips-states: { <<: *group, textLocation: leftMiddle, members: [NE,IA,MO],stroke: none }
+
+connection: &connection
+  color: "lightgrey"
+  stroke: "darkslategrey"
+connections:
+#Affiliates
+  - { <<: *connection, stroke: lightgrey, endpoints: [kc-1100:10Gb,kc-states-10:10Gb] }
+#RIPS
+  - { <<: *connection, stroke: lightgrey, endpoints: [RIPS:10Gb,kc-qfx1:10Gb] }
+  - { <<: *connection, strokeDashArray: [3,3], endpoints: [RIPS,rips-states] }
+#States
+  - { <<: *connection, endpoints: [kc-1100:100Gb,kc-states:100Gb] }
+  - { <<: *connection, endpoints: [tul-18w:100Gb,tul-states:100Gb] }
+#KCIX
+  - { <<: *connection, strokeDashArray: [3,3], endpoints: [KCIX,kcix-states] }
+  - { <<: *connection, stroke: black, endpoints: [KCIX:100Gb,kc-qfx2:100Gb] }
+#Internet2
+  - { <<: *connection, stroke: black, endpoints: [tul-18w:100Gb,Internet2:100Gb] }
+  - { <<: *connection, stroke: red, endpoints: [kc-1100:200Gb,Internet2:200Gb] }
+  - { <<: *connection, stroke: black, endpoints: [tul-18w:100Gb,Internet2:100Gb] }
+#Interconnects
+  - { <<: *connection, stroke: red, endpoints: [kc-qfx1:200Gb,kc-qfx2:200Gb] }
+  - { <<: *connection, stroke: red, endpoints: [tul-qfx1:200Gb,tul-qfx2:200Gb] }
+  - { <<: *connection, stroke: black, endpoints: [tul-qfx1:via KanREN,kc-qfx1:via KanREN] }
+  - { <<: *connection, stroke: black, endpoints: [tul-qfx2:via I2 AL2S,kc-qfx2:via I2 AL2S] }
