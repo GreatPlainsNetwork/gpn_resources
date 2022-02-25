@@ -7,7 +7,7 @@ diagram:
 title:
   color: black
   logoFill: white
-  text: "Establishing 400G Path"
+  text: "Preparing for 400G"
   author: Andrew Laubach/James Deaton
   date: 2/24/22
   version: 1.5
