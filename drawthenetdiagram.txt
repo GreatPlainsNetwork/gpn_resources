@@ -7,11 +7,11 @@ diagram:
 title:
   color: black
   logoFill: white
-  text: "Post-NGI Plans"
+  text: "Establishing 400G Path"
   author: Andrew Laubach/James Deaton
-  date: 1/10/2021
+  date: 2/24/22
   company: Great Plains Network
-  subText: Current plans for leveraging new connectivity from I2 and KanREN
+  subText: Implementing new devices and IX
   logoUrl: https://raw.githubusercontent.com/GreatPlainsNetwork/gpn_resources/main/images/gpn.png
   fill: none
   stroke: "black"
